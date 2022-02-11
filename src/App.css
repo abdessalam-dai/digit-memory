@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
 * {
-	/* font-family: 'Poppins', sans-serif; */
+	font-family: 'Poppins', sans-serif;
 }
 
 body {
-	background-color: rgb(54, 54, 54) !important;
-	color: #fff !important;
+	background-color: #393E46 !important;
+	color: #EEEEEE !important;
 }
 
 .main {
@@ -16,8 +18,8 @@ body {
 		transform: scale(1);
 	}
 
-	50% {
-		transform: scale(1.2);
+	85% {
+		transform: scale(1.5);
 	}
 
 	100% {
@@ -26,5 +28,13 @@ body {
 }
 
 .digit {
-	animation: scaleSize 1s infinite;
+	animation: scaleSize 1.5s infinite;
+}
+
+.digit-green {
+	color: #00ADB5;
+}
+
+.digit-red {
+	color: #fa687e;
 }

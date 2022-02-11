@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import Timer from './Timer';
-// import Digits from './Digits';
-
 
 
 class Main extends Component {
@@ -22,8 +19,9 @@ class Main extends Component {
             showInput: false,
             startTimer: false,
             showResult: false,
-            // showNextButton: true,
-            digitShowTime: 1000,
+            showControlBtn: true,
+            controlBtnContent: "Start",
+            digitShowTime: 1500,
         }
 
         this.showCurrentDigit = this.showCurrentDigit.bind(this);
@@ -31,7 +29,7 @@ class Main extends Component {
         this.handleUserNumberChange = this.handleUserNumberChange.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.handleUserSubmit = this.handleUserSubmit.bind(this);
-        // this.handleNextButton = this.handleNextButton.bind(this);
+        this.handleControlBtnClick = this.handleControlBtnClick.bind(this);
     }
 
     handleUserSubmit() {
@@ -40,27 +38,28 @@ class Main extends Component {
         const numberByUser = this.state.numberByUser;
         const currentNumber = this.state.currentNumber;
         let numberOfDigits = this.state.numberOfDigits;
+        let controlBtnContent = "+1 Digit";
 
         if (numberByUser === currentNumber) {
-            // this.timer = setInterval(this.showCurrentDigit, this.state.digitShowTime);
             this.setState({
                 numberOfDigits: numberOfDigits + 1,
-                // showNextButton: true,
             });
+        } else {
+            controlBtnContent = "Try again";
         }
 
         this.setState({
             showInput: false,
             startTimer: false,
             showResult: true,
+            controlBtnContent: controlBtnContent,
         });
 
         setTimeout(() => {
             this.setState({
-                time: 3,
-                showResult: false
+                showResult: false,
+                showControlBtn: true,
             });
-            this.startNewRound();
         }, 2000);
     }
 
@@ -104,17 +103,18 @@ class Main extends Component {
         }
     }
 
-    // handleNextButton () {
-    //     this.setState({
-    //         showResult: false,
-    //         showNextButton: false,
-    //     })
-    // }
+    handleControlBtnClick() {
+        this.setState({
+            showResult: false,
+            showControlBtn: false,
+        });
+        this.startNewRound();
+    }
 
     countDown() {
         let time = this.state.time;
 
-        if (time === 0) {
+        if (time <= 0) {
             clearInterval(this.timer);
             this.setState({
                 showInput: false,
@@ -179,13 +179,7 @@ class Main extends Component {
             numberByUser: "",
         });
 
-        if (true) {
-            this.timer = setInterval(this.showCurrentDigit, this.state.digitShowTime);
-        }
-    }
-
-    componentDidMount() {
-        this.startNewRound();
+        this.timer = setInterval(this.showCurrentDigit, this.state.digitShowTime);
     }
 
     render() {
@@ -193,22 +187,39 @@ class Main extends Component {
         let currDigitIndex = this.state.currDigitIndex;
         let showInput = this.state.showInput;
         let showResult = this.state.showResult;
-        // let showNextButton = this.state.showNextButton;
+        let showControlBtn = this.state.showControlBtn;
+        let controlBtnContent = this.state.controlBtnContent;
 
-        const UserInput = <input
-            type="number"
-            value={this.state.numberByUser}
-            onChange={this.handleUserNumberChange}
-            onKeyPress={this.handleKeyPress}
-            autoFocus
-            className="form-control-lg"
-        />;
+        const controlBtn = <button
+            className="btn btn-lg py-3 px-4 rounded-0 btn-primary"
+            onClick={this.handleControlBtnClick}
+        >
+            <h2 className="m-0">{controlBtnContent}</h2>
+        </button>
+
+        const UserInput = () => {
+            return (
+                <div>
+                    <input
+                        type="number"
+                        value={this.state.numberByUser}
+                        onChange={this.handleUserNumberChange}
+                        onKeyPress={this.handleKeyPress}
+                        autoFocus
+                        placeholder="Enter the series of digits"
+                        className="form-control-lg"
+                    />
+                    <h4 className="mt-3 text-center">Countdown : {this.state.time}s</h4>
+                </div>
+            );
+        };
+
         const CurrentDigit = <h1 style={{ fontSize: "80px" }} className="digit">{digitsArr[currDigitIndex]}</h1>;
         const Result = () => {
             const digits = digitsArr.map((digit, index) =>
                 <span
                     key={index}
-                    className={this.digitIsCorrect(digit, index) ? "text-success" : "text-danger"}
+                    className={this.digitIsCorrect(digit, index) ? "digit-green" : "digit-red"}
                 >
                     {digit}
                 </span>
@@ -221,49 +232,25 @@ class Main extends Component {
             );
         }
 
-        // const NextButton = <button
-        //     className="btn btn-lg btn-primary"
-        //     onClick={this.handleNextButton}
-        // >Next</button>
-
         return (
             <div className="main">
-                <div className="d-flex justify-content-between">
+                <div className="d-flex justify-content-start">
                     <div className="border-end border-bottom p-4">
                         <h4>Number of digits : {this.state.numberOfDigits}</h4>
                     </div>
-
-                    <div className="border-start border-bottom p-4">
-                        <Timer
-                            time={this.state.time}
-                        />
-                    </div>
                 </div>
 
-                <div className="d-flex justify-content-center">
-                    <div className="p-4">
-                        <h4>{this.state.message}</h4>
-                    </div>
-                </div>
-
-                <div className="d-flex justify-content-center" style={{ height: "50vh" }}>
+                <div className="d-flex justify-content-center" style={{ height: "80vh" }}>
                     <div className="my-auto">
                         <div className="d-flex justify-content-center">
                             <div className="p-4">
                                 {
-                                    showResult ? <Result /> : (showInput ? UserInput : CurrentDigit)
+                                    showControlBtn ? controlBtn : (showResult ? <Result /> : (showInput ? <UserInput /> : CurrentDigit))
                                 }
                             </div>
                         </div>
                     </div>
                 </div>
-
-                {/* <div className="d-flex justify-content-center">
-                    <div className="p-4">
-                        {showNextButton ? NextButton : ""}
-                    </div>
-                </div> */}
-
             </div>
         );
     }
