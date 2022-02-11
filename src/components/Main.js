@@ -7,7 +7,7 @@ class Main extends Component {
 
         this.state = {
             time: 3,
-            numberOfDigits: 4,
+            numberOfDigits: 2,
             min: 0,
             max: 0,
             message: "Memorize this series of digits",
@@ -207,9 +207,9 @@ class Main extends Component {
                         onKeyPress={this.handleKeyPress}
                         autoFocus
                         placeholder="Enter the series of digits"
-                        className="form-control-lg"
+                        className="form-control"
                     />
-                    <h4 className="mt-3 text-center">Countdown : {this.state.time}s</h4>
+                    <h5 className="mt-3 text-center">Countdown : {this.state.time}s</h5>
                 </div>
             );
         };
