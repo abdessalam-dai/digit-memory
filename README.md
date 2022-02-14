@@ -1,3 +1,10 @@
+<h1>Digit Memory</h1>
+Train your memory by memorizing series of random digits that will appear on the screen, starting from 2 digits.
+Enter the series of digits in the input. If your answer is correct, one more digit will appear in the next ground.
+
+<h1>Live Demo</h1>
+Visit https://digit-memory.netlify.app/
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
