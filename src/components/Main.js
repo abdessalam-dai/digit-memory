@@ -205,7 +205,6 @@ class Main extends Component {
                         value={this.state.numberByUser}
                         onChange={this.handleUserNumberChange}
                         onKeyPress={this.handleKeyPress}
-                        autoFocus
                         placeholder="Enter the series of digits"
                         className="form-control"
                     />
