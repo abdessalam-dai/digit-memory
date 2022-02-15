@@ -1,5 +1,22 @@
 import React, { Component } from 'react';
 
+const UserInput = (props) => {
+    return (
+        <div>
+            <input
+                type="number"
+                value={props.numberByUser}
+                onChange={props.handleUserNumberChange}
+                onKeyPress={props.handleKeyPress}
+                placeholder="Enter the series of digits"
+                className="form-control"
+                autoFocus
+            />
+            <h4 className="mt-3 text-center">Countdown : {props.time}s</h4>
+        </div>
+    );
+};
+
 
 class Main extends Component {
     constructor(props) {
@@ -197,22 +214,6 @@ class Main extends Component {
             <h2 className="m-0">{controlBtnContent}</h2>
         </button>
 
-        const UserInput = () => {
-            return (
-                <div>
-                    <input
-                        type="number"
-                        value={this.state.numberByUser}
-                        onChange={this.handleUserNumberChange}
-                        onKeyPress={this.handleKeyPress}
-                        placeholder="Enter the series of digits"
-                        className="form-control"
-                    />
-                    <h5 className="mt-3 text-center">Countdown : {this.state.time}s</h5>
-                </div>
-            );
-        };
-
         const CurrentDigit = <h1 style={{ fontSize: "80px" }} className="digit">{digitsArr[currDigitIndex]}</h1>;
         const Result = () => {
             const digits = digitsArr.map((digit, index) =>
@@ -244,7 +245,14 @@ class Main extends Component {
                         <div className="d-flex justify-content-center">
                             <div className="p-4">
                                 {
-                                    showControlBtn ? controlBtn : (showResult ? <Result /> : (showInput ? <UserInput /> : CurrentDigit))
+                                    showControlBtn ? controlBtn : (showResult ? <Result /> : (showInput ? 
+                                <UserInput
+                                                    numberByUser={this.state.numberByUser}
+                                                    handleUserNumberChange={this.handleUserNumberChange}
+                                                    handleKeyPress={this.handleKeyPress}
+                                                    time={this.state.time}
+                                                />: 
+                                                    CurrentDigit))
                                 }
                             </div>
                         </div>
